@@ -53,6 +53,8 @@
             geojsonLayer.addGeoJson(data);
             geojsonLayer.setStyle({ fillColor: "#FF0000", strokeWeight: 1 });
 
+            const bounds = new google.maps.LatLngBounds(); // fitting
+            
            // 정확한 Polygon/MultiPolygon 처리
             geojsonLayer.forEach((feature) => {
               const geometry = feature.getGeometry();
@@ -60,17 +62,27 @@
               if (geometry.getType() === "Polygon") {
                 const paths = geometry.getAt(0).getArray();
                 districtPolygons.push(new google.maps.Polygon({ paths: paths }));
+                paths.forEach(coord => bounds.extend(coord)); // polygon board expand
               } else if (geometry.getType() === "MultiPolygon") {
                 geometry.getArray().forEach((polygon) => {
                   const paths = polygon.getAt(0).getArray();
                   districtPolygons.push(new google.maps.Polygon({ paths: paths }));
+                  paths.forEach(coord => bounds.extend(coord)); // multipolygon board expand
                 });
               }
             });
+
+            map.fitBounds(bounds); // fit to whole polygon
+            
             const labelMarker = new google.maps.Marker({
               position: { lat: 39.5002, lng: -76.3150 },
               map: map,
-              label:"34B",
+              label:{
+                text: "34B",
+                color: "#ffffff",
+                fontSize: "16px",
+                fontWeight: "bold",
+              },
               icon: {
                 path: google.maps.SymbolPath.CIRCLE,
                 scale: 0,
