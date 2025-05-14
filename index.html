@@ -65,6 +65,19 @@
         background-color: #0056b3;
       }
 
+      #gps-button {
+        background: none;
+        border: 1px solid #ccc;
+        padding: 6px 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      #gps-button:hover {
+        background-color: #f0f0f0;
+      }
+
+
 
       @media (min-width: 768px) {
         #controls {
@@ -92,11 +105,15 @@
   </head>
 
   <body>
-    <div id="controls">
+    <div id="controls" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+      <button id="gps-button" onclick="checkCurrentLocation()" title="Use my location">📍</button>
       <input id="address" type="text" placeholder="Enter your address" size="50" />
-      <button id="use-location" onclick="checkCurrentLocation()">
-        📍 Use My Location to Check District
-      </button>
+      <button onclick="geocodeAddress()">Check District</button>
+      <div id="result" style="flex-basis: 100%; margin-top: 8px;"></div>
+    </div>
+    
+ 
+
 
       <button onclick="geocodeAddress()">Check District</button>
       <div id="result"></div>
