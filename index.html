@@ -151,6 +151,7 @@
             });
 
           });
+          checkCurrentLocation();  //check current location
 
       }
 
@@ -175,8 +176,38 @@
           } else {
             document.getElementById("result").innerHTML = "Geocoding failed: " + status;
           }
+        
         });
       }
+      function checkCurrentLocation() {
+        if (!navigator.geolocation) {
+          document.getElementById("result").innerHTML = "Geolocation is not supported by your browser.";
+          return;
+        }
+      
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            const location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            map.setCenter(location);
+            map.setZoom(14);
+      
+            if (marker) marker.setMap(null);
+            marker = new google.maps.Marker({ map: map, position: location });
+      
+            const inside = districtPolygons.some((polygon) =>
+              google.maps.geometry.poly.containsLocation(location, polygon)
+            );
+      
+            document.getElementById("result").innerHTML = inside
+              ? "<b style='color: green;'>✔️ Your current location is within District 34B.</b>"
+              : "<b style='color: red;'>❌ Your current location is NOT in District 34B.</b>";
+          },
+          function (error) {
+            document.getElementById("result").innerHTML = "Geolocation failed: " + error.message;
+          }
+        );
+      }
+
 
       window.onload = initMap;
     </script>
