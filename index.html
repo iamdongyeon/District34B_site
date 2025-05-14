@@ -105,20 +105,17 @@
   </head>
 
   <body>
-    <div id="controls" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-      <button id="gps-button" onclick="checkCurrentLocation()" title="Use my location">📍</button>
-      <input id="address" type="text" placeholder="Enter your address" size="50" />
-      <button onclick="geocodeAddress()">Check District</button>
-      <div id="result" style="flex-basis: 100%; margin-top: 8px;"></div>
-    </div>
-    
- 
-
-
-      <button onclick="geocodeAddress()">Check District</button>
+    <div id="controls">
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+        <button id="gps-button" onclick="checkCurrentLocation()" title="Use my location">
+          📍
+        </button>
+        <input id="address" type="text" placeholder="Enter your address" size="50" />
+        <button onclick="geocodeAddress()">Check District</button>
+      </div>
       <div id="result"></div>
     </div>
-    <div id="map"></div>
+     <div id="map"></div>
 
     <script>
       let map;
